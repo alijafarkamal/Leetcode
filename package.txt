@@ -1,0 +1,56 @@
+class package {
+    char* source;
+    char* destination;
+    int pack;
+public:
+    package(const char* so,const  char* dest, int pck) {
+        source = new char[strlen(so) + 1];
+        destination = new char[strlen(dest) + 1];
+        strcpy_s(source, strlen(so) + 1, so);
+        strcpy_s(destination, strlen(dest) + 1, dest);
+        pack = pck;
+    }
+    virtual int comp_charges() {
+        return pack * 20;
+    }
+    ~package()
+    {
+        delete[] source;
+        delete[] destination;
+    }
+};
+class TwoD_package : public package{
+    char* sos;
+    char* pos;
+    int fixed;
+public:
+    TwoD_package(const char* sos, const char* pos, int amount, int fix) : package(sos,pos,amount), fixed(fix){ }
+     int comp_charges() override{
+        return package::comp_charges()+fixed;
+    }
+
+};
+class Urgent_Package : public package {
+    char* sos;
+    char* pos;
+    double fixed;
+public:
+    Urgent_Package(const char* sos, const char* pos, int amount, int fix) : package(sos, pos, amount), fixed(fix) { }
+    int comp_charges() override {
+        return (package::comp_charges()) + ((fixed/100)* package::comp_charges());
+    }
+};
+int main(){
+const int size = 5;
+package** pkg = new package * [size];
+pkg[0] = new package("Lahore", "Karachi", 20);
+pkg[1] = new TwoD_package("Lahore", "Islamabad", 35, 200);
+pkg[2] = new Urgent_Package("Karachi", "Lahore", 25, 10);
+pkg[3] = new TwoD_package("Karachi", "Islamabad", 30, 250);
+pkg[4] = new Urgent_Package("Karachi", "Peshawar", 40, 25);
+for (int i = 0; i < size; i++) {
+
+    cout << "Package charges : " << pkg[i]->comp_charges();
+    delete pkg[i];
+}
+delete[] pkg;

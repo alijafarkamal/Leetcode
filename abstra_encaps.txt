@@ -1,0 +1,57 @@
+#include <iostream>
+#include <string>
+
+// Abstraction: The Car class abstracts the concept of a car.
+class Car {
+private:
+    // Encapsulation: Private member variables to encapsulate internal state
+    std::string make;
+    std::string model;
+    int year;
+    bool engineRunning;
+
+public:
+    // Constructor to initialize the car's state
+    Car(const std::string& make, const std::string& model, int year)
+        : make(make), model(model), year(year), engineRunning(false) {}
+
+    // Abstraction: Public member function to start the car's engine
+    void startEngine() {
+        if (!engineRunning) {
+            std::cout << "Engine started." << std::endl;
+            engineRunning = true;
+        } else {
+            std::cout << "Engine is already running." << std::endl;
+        }
+    }
+
+    // Abstraction: Public member function to stop the car's engine
+    void stopEngine() {
+        if (engineRunning) {
+            std::cout << "Engine stopped." << std::endl;
+            engineRunning = false;
+        } else {
+            std::cout << "Engine is already stopped." << std::endl;
+        }
+    }
+
+    // Abstraction: Public member function to display information about the car
+    void displayInfo() const {
+        std::cout << "Car Information: " << make << " " << model << " " << year << std::endl;
+        std::cout << "Engine Status: " << (engineRunning ? "Running" : "Stopped") << std::endl;
+    }
+};
+
+int main() {
+    // Create an instance of the Car class
+    Car myCar("Toyota", "Camry", 2022);
+
+    // Use public member functions to interact with the car
+    myCar.displayInfo();
+    myCar.startEngine();
+    myCar.displayInfo();
+    myCar.stopEngine();
+    myCar.displayInfo();
+
+    return 0;
+}

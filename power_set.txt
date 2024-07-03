@@ -1,0 +1,10 @@
+		//for (int counter = 0; counter < (1 << size); ++counter) {
+		//	cout << "{";
+		//	for (int j = 0; j < size; ++j) {
+		//		if (counter & (1 << j)) {
+		//			cout << arr[j] << " ";
+		//		}
+		//	}
+		//	cout << "}" << endl;
+		//}
+

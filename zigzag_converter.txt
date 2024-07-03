@@ -1,0 +1,27 @@
+   const char* ch = "PAYPALISHIRING";
+
+   int num = 6;
+   int count = 0;
+   int index = 0;
+   char** store = new char* [num];
+   for (int i = 0; i < num; i++) {
+       count = 0;
+       for (int j = i; j < strlen(ch); j += num) {
+           count++;
+       }
+       store[i] = new char[count + 1];
+       for (int j = i; j < strlen(ch); j += num) {
+           store[i][index++] = ch[j];
+       }
+       store[i][index] = '\0';
+       index = 0;
+   }
+   for (int i = 0; i < num; i++) {
+       for (int j = 0; store[i][j] != '\0'; j++) {
+           cout << store[i][j];
+       }
+       cout << endl;
+   }
+   for (int i = 0; i < 6; i++)
+       delete[] store[i];
+   delete []store;

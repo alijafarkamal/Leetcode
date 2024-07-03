@@ -1,0 +1,68 @@
+class MyClass {
+public:
+    MyClass() {
+        std::cout << "Constructor called" << std::endl;
+    }
+    
+    ~MyClass() {
+        std::cout << "Destructor called" << std::endl;
+    }
+    
+    MyClass(const MyClass& other) {
+        std::cout << "Copy constructor called" << std::endl;
+    }
+};
+
+void foo(MyClass obj) {
+    std::cout << "Inside foo function" << std::endl;
+}
+
+int main() {
+    MyClass obj;
+    foo(obj);
+    std::cout << "Back in main" << std::endl;
+
+class MyPointer {
+private:
+    int* ptr;
+
+public:
+    MyPointer(int* p) : ptr(p) {}
+
+    // Post-increment operator
+    MyPointer operator++(int) {
+        MyPointer temp = *this;
+        ++(*this);
+        return temp;
+    }
+
+    // Pre-increment operator
+    MyPointer& operator++() {
+        ++ptr;
+        return *this;
+    }
+
+    // Subtraction operator
+    int operator-(const MyPointer& other) const {
+        return *ptr - *(other.ptr);
+    }
+
+    // Assignment operator
+    MyPointer& operator=(const MyPointer& other) {
+        if (this != &other) {
+            *ptr = *(other.ptr);
+        }
+        return *this;
+    }
+
+    // Accessor for dereferencing
+    int operator*() const {
+        return *ptr;
+    }
+};
+
+int main() {
+    int a = 5, b = 7, c = 2;
+    MyPointer p1(&a), p2(&b), p3(&c);
+
+    p1 = p2++ - ++p3;

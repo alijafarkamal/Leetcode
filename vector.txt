@@ -1,0 +1,170 @@
+    vector<int> numbers;
+    numbers.push_back(1);
+    numbers.push_back(2);
+    numbers.push_back(3);
+    numbers.push_back(4);
+    for (const auto& num : numbers)
+        cout << num << " ";
+    numbers.pop_back();
+    for (const auto& num : numbers)
+        cout << num << " ";
+    numbers.clear();
+
+
+
+
+
+
+
+
+     array<int, 4>a= { 1,2,3,4 };
+
+     for (const auto& num : a)
+         cout << num << " ";
+
+     int as = a.size();
+
+ #include<array>
+#include<deque>
+int main()
+{
+    vector<int> numbers;
+    numbers.push_back(1);
+    numbers.push_back(2);
+    numbers.push_back(3);
+    numbers.push_back(4);
+    for ( auto& num : numbers)
+        cout << num << " ";
+    vector<int> a= numbers;
+    for ( auto& num : a)
+        cout << num << " ";
+    //for (int i : a)
+    //    cout << i << " ";
+    cout << numbers.at(3);// pop_back();
+    cout << numbers.front();// pop_back();
+    cout << numbers.back();// pop_back();
+    cout << numbers.capacity();// pop_back();
+    deque <int> h;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include<array>
+#include<stack>
+#include<map>
+#include<queue>
+#include<list>
+#include<deque>
+int main()
+{
+    list <int> l(5,100);
+    list <int> a(l);
+    for (int i : l)
+        cout << i << ":";
+    int user;
+    cin >> user;
+    while (user != -1) {
+        l.push_back(user);
+        cin >> user;
+    }
+    for (int i : l)
+        cout << i << ":";
+    l.erase(l.begin());
+    for (int i : l)
+        cout << i << ":";
+    stack<string> s;
+    s.push("kumar");
+    s.push("john");
+    s.push("ali");
+    cout << s.top() << endl;
+    s.pop();
+    cout << s.top() << endl;
+    priority_queue <int> maxi;
+    priority_queue <int, vector<int>, greater<int>> min;
+    //maxi.push(1);
+    //maxi.push(2);
+    //maxi.push(3);
+    //maxi.push(4);
+    //int size = maxi.size();
+    //for (int i = 0; i < size; i++)
+    //{
+    //    cout << maxi.top() << endl;
+    //maxi.pop();
+    //}
+    set <int> s;
+    s.insert(5);
+    s.insert(1);
+    s.insert(2);
+    s.insert(3);
+    for (auto i : s)
+        cout << i << " ";
+
+    set<int>::iterator it = s.begin();
+    it++;
+    s.erase(it);
+    for (int i : s)
+        cout << i << " ";
+    char arr[] = "abcde";
+    for (char i : arr)
+        cout << i << " ";
+    map<int, string> s;
+    s[1] = "kumar";
+    s[12] = "kumar";
+    s[3] = "kumar";
+    s.insert({ 1,"bheam" });
+    for (auto i : s)
+        cout << i.first << endl;
+    cout << s.count(12);
+    s.erase(12);
+    auto it = s.find(5);
+    for (auto i = it; i != s.end(); i++)
+        cout << (*i).first;
+    min.push(5);
+    min.push(1);
+    min.push(3);
+    min.push(2);
+    int size = min.size();
+    for (int i = 0; i < size; i++)
+    {
+        cout << min.top() << endl;
+        min.pop();
+    }
+    queue<string> s;
+    s.push("kumar");
+    s.push("john");
+    s.push("ali");
+    cout << s.front() << endl;
+    s.pop();
+    cout << s.front() << endl;
+    cout << s.size() << endl;
+    vector<int> numbers;
+    numbers.push_back(1);
+    numbers.push_back(2);
+    numbers.push_back(3);
+    numbers.push_back(4);
+    for ( auto& num : numbers)
+        cout << num << " ";
+    vector<int> a= numbers;
+    for ( auto& num : a)
+        cout << num << " ";
+    //for (int i : a)
+    //    cout << i << " ";
+    cout << numbers.at(3);// pop_back();
+    cout << numbers.front();// pop_back();
+    cout << numbers.back();// pop_back();
+    cout << numbers.capacity();// pop_back();
+    deque <int> h;
+    system("pause");
+    return 0;
+}

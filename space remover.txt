@@ -1,0 +1,14 @@
+    const int rows = 3;
+    const int cols = 20; // One extra column for the space after each letter
+    char arr[4][cols] = { "a b c d e", "j k k k l s", "t u m m k s j f","g h a n n n i" };
+    int index = 2;
+    for (int i = 0; i < 4; index = 2, i++)
+        for (int j = 1; arr[i][j] != '\0'; index++, j++)
+            if (arr[i][index] >= 'A' && arr[i][index] <= 'Z' || arr[i][index] >= 'a' && arr[i][index] <= 'z')
+                arr[i][j] = arr[i][index++];
+            else arr[i][j] = '\0';
+    for (int i = 0; i < 4; i++){
+        for (int j = 0; arr[i][j] != '\0'; j++)
+            cout << arr[i][j];
+        cout << endl;
+    }

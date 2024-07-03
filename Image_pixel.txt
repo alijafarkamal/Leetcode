@@ -1,0 +1,97 @@
+class Image
+{
+	int rows, cols;
+	int** img;
+public:
+	Image(): rows(0), cols(0), img(nullptr) {
+	}
+	Image(int rows, int cols, int** img_ptr) {
+		this->rows = rows;
+		this->cols = cols;
+		img = new int* [rows];
+		for (int i = 0; i < rows; i++)
+		{
+		img[i] = new int[cols];
+		for (int j = 0; j < cols; j++)
+		img[i][j] = img_ptr[i][j];
+		}
+	}
+	int divide(int** filter, int num) {
+		int sum = 0;
+		for (int i = 0; i < num; i++)
+			for (int j = 0; j < num; j++)
+				sum += filter[i][j];
+		return sum;	
+	}
+	void filtering(int stride, int** filter) {
+		int size = 3;
+		int divisor = divide(filter,size);
+		int sum = 0;
+		bool True = false;
+		int index_i = 0; int index_j = 0;
+	for (int i = 0; i < rows && i<rows-stride; i += stride) {
+		for (int j = 0; j < cols && j<cols-stride; j += stride) {
+			for (int k = i; k < i + size && k < rows; k++) {
+				for (int l = j; l < j + size && l < cols; l++) {
+					sum += (filter[index_i][index_j++] * img[k][l]);
+						True = true;
+
+					}
+					index_j = 0;
+					index_i++;
+				}
+					if(True)
+					img[i + size / 2][j + size / 2] = sum / divisor;
+				sum = 0;
+				index_i = 0;
+				index_j = 0;
+			}
+		}
+	}
+	void display() {
+		for (int i = 0; i < rows; i++) {
+			for (int j = 0; j < cols; j++)
+				cout << img[i][j] << " ";
+			cout << endl;
+		}
+	}
+	~Image()
+	{
+		for (int i = 0; i < rows; i++)
+			delete img[i];
+		delete[] img;
+	}
+};
+int main() {
+
+	int arr[5][5] = {
+	  {35, 50, 45, 46, 67},
+	  {36, 47, 22, 25, 29},
+	  {38, 52, 51, 50, 54},
+	  {42, 35, 47, 49, 51},
+	  {53, 62, 63, 66, 70}
+	};
+	int store[3][3] = {
+		{0, 1, 0},
+		{1, 2, 1},
+		{0, 1, 0}
+	};
+	int** arr1 = new int* [5];
+	int** store1 = new int* [3];
+	for (int i = 0; i < 5; i++)
+	{
+		arr1[i] = new int[5];
+		if (i < 3)store1[i] = new int[3];
+		for (int j = 0; j < 5; j++)
+		{
+			arr1[i][j] = arr[i][j];
+			if (i < 3 && j < 3) store1[i][j] = store[i][j];
+		}
+	}
+
+	Image img(5,5,arr1);
+	img.filtering(2, store1);
+	img.display();
+	system("pause");
+	return 0;
+}

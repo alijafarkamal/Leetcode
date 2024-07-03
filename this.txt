@@ -1,0 +1,27 @@
+class StringManipulator {
+
+public:
+    int data;
+    StringManipulator(int value) : data(value)
+    {
+        cout << this->data;
+        cout << endl;
+        this->display();
+
+    }
+    void displaa() {
+        
+
+    }
+    void display() {
+        cout << this->data;
+        cout << endl;
+
+    }
+};
+
+int main() {
+    StringManipulator manipulator(10);
+
+   system("pause");
+    return 0;

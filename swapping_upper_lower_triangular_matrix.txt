@@ -1,0 +1,65 @@
+int** AllocateMemory(int& rows, int& cols) {
+    int** matrix = new int* [rows];
+    for (int i = 0; i < rows; i++)
+        matrix[i] = new int[cols];
+    return matrix;
+}
+void InputMatrix(int** matrix, const int rows, const int cols) {
+    for (int i = 0; i < rows; i++){
+        for (int j = 0; j < cols; j++) {
+            cin >> matrix[i][j];
+        }
+    }
+}
+void DisplayMatrix(int** matrix, const int& rows, const int& cols) {
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            cout << matrix[i][j] << " ";
+        }
+    }
+}
+void swapTriangular(int** matrix, const int& rows, const int& cols) {
+    if (rows != cols) return;
+    int* upper_getter = new int[rows];
+    int* lower_getter = new int[rows]; int index_up(0); int index_low(0);
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            if (j > i) upper_getter[index_up++] = matrix[i][j];
+            if (j < i) lower_getter[index_low++] = matrix[i][j];
+        }
+    }
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            if (j > i) matrix[i][j] = lower_getter[--index_low];
+            if (j < i) matrix[i][j] = upper_getter[--index_up];
+        }
+    }
+int index_x = rows-1;
+int index_y = rows-2;
+for (int i = 0; i < rows-1;index_x--, i++) {
+        for (int j = 0; j < cols; j++) {
+            if (j > i) {
+		swap(arr[i][j],arr[index_x][index_y--];
+        }
+	index_y = 0;
+    }
+
+    
+}
+int main() {
+    int rows, cols;
+    cout << "Enter the number of rows: ";
+    cin >> rows;
+    cout << "Enter the number of columns: ";
+    cin >> cols;
+    //Allocate memory for matrix
+    int** matrix = AllocateMemory(rows, cols);
+        // Input matrix elements from the user
+    InputMatrix(matrix, rows, cols);
+        // Display the input matrix
+    DisplayMatrix(matrix, rows, cols);
+
+    swapTriangular(matrix, rows, cols);
+    DisplayMatrix(matrix, rows, cols);
+return 0;
+}

@@ -1,0 +1,67 @@
+class Notification {
+protected:
+    string message;
+    string recipient;
+public:
+
+    Notification(const string& msg, const string& rec) :message(msg), recipient(rec) {
+    }
+virtual void send() {
+    cout << "Sending to " << recipient << message << endl;
+}
+};
+class RecurringNotification : public Notification {
+public:
+    RecurringNotification(const string& msg, const string& rec) :Notification(msg,
+        rec) {}
+    virtual Notification** schedule(int occurrences) = 0;
+};
+
+class EmailNotification : public RecurringNotification {
+public:
+    EmailNotification(const string& msg, const string& rec) : RecurringNotification(msg, rec) {} // Corrected constructor virtual Notification** schedule(int occurrences) {
+    Notification** schedule(int occurrences) {
+        Notification** scheduled = new Notification * [occurrences];
+        for (int i = 0; i < occurrences; ++i) {
+            scheduled[i] =new EmailNotification(message, recipient); // Reuse the
+        }
+        return scheduled;
+    }
+};
+class SMSNotification : public RecurringNotification {
+public:
+    SMSNotification(const string& msg, const string& rec) : RecurringNotification(msg, rec) {} // Corrected constructor virtual Notification** schedule(int occurrences) {
+    Notification** schedule(int occurrences) {
+        Notification** scheduled = new Notification * [occurrences];
+        for (int i = 0; i < occurrences; ++i) {
+            scheduled[i] = new EmailNotification(message, recipient); // Reuse the
+        }
+        return scheduled;
+    }
+};
+class PushNotification : public RecurringNotification {
+public:
+    PushNotification(const string& msg, const string& rec) : RecurringNotification(msg, rec) {
+    } // Corrected constructor virtual Notification** schedule(int occurrences) {
+    Notification** schedule(int occurrences) {
+        Notification** scheduled = new Notification * [occurrences];
+        for (int i = 0; i < occurrences; ++i) {
+            scheduled[i] = new PushNotification(message, recipient); // Reuse the
+        }
+        return scheduled;
+    }
+};
+int main() {
+    RecurringNotification** notification = new RecurringNotification * [3]; 
+    notification[0] = new EmailNotification("Reminder: Meeting at 3 PM", "alice@example.com");
+    notification[1] = new SMSNotification("Your order has shipped", "+1234567890");
+    notification[2] = new PushNotification("New episode available now", "user123"); // Fixed assignment statement
+    
+        for (int i =  0; i < 3; i++) {
+            Notification** scheduled = notification[i]->schedule(3);
+                for (int j = 0; j < 3; j++) {
+                    scheduled[j]->send();
+            }
+        }
+return 0;
+}

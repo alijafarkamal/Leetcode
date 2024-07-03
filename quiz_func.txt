@@ -1,0 +1,41 @@
+class A {
+    int x;
+public:
+    A(int a) {
+        x = a;
+        cout << "Constructor of A" << endl;
+    }
+};
+
+class B {
+    A a;
+public:
+    B(int w) :a(w) {
+        cout << "Constructor of B" <<
+            endl;
+    }
+};
+
+class C {
+    A a;
+public:
+    C(int w) :a(w) {
+        cout << "Constructor of C" <<
+            endl;
+    }
+};
+
+class D {
+    B x;
+    C y;
+public:
+    D(int w = 0) :x(w), y(w) {
+        cout << "Constructor of D" <<
+            endl;
+    }
+};
+
+int main()
+{
+    D Z(3);
+   

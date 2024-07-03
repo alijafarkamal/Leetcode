@@ -1,0 +1,279 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+class book {
+public:
+    int num;
+    int year;
+    int publication;
+    book() : num(89), publication(1997), year(2000) {
+
+    }
+    book(const book& obj) : num(obj.num), year(obj.year), publication(obj.publication) {
+    }
+    void op(const book& original) {
+        book local(original);
+        local.num += 10;
+        local.year += 10;
+        local.publication += 10;
+        original.display();
+        local.display();
+     
+    }
+    void display()const {
+        cout << num << endl;
+        cout << year << endl;
+        cout << publication << endl;
+    }
+};
+
+int main() {
+    book bk;
+    bk.display();
+    bk.op(bk);
+
+    system("pause");
+    return 0;
+}
+
+
+
+
+
+#include <iostream>
+#include <string>
+using namespace std;
+
+class book {
+public:
+    int num;
+    int year;
+    int publication;
+    book* ptrToAnotherBook;  // Pointer to another instance of the same class
+
+    book() : num(89), publication(1997), year(2000), ptrToAnotherBook(nullptr) {
+        // Initialize the pointer to nullptr for safety
+    }
+
+    // Copy constructor for deep copy
+    book(const book& obj) : num(obj.num), year(obj.year), publication(obj.publication) {
+        // Perform a deep copy for the pointer
+        if (obj.ptrToAnotherBook) {
+            ptrToAnotherBook = new book(*obj.ptrToAnotherBook);
+        } else {
+            ptrToAnotherBook = nullptr;
+        }
+    }
+
+    // Destructor to free memory for the deep copy
+    ~book() {
+        delete ptrToAnotherBook;
+    }
+
+    void display() const {
+        cout << "Number: " << num << endl;
+        cout << "Year: " << year << endl;
+        cout << "Publication: " << publication << endl;
+        cout << "Pointer Address: " << ptrToAnotherBook << endl;
+        cout << endl;
+    }
+};
+
+int main() {
+    // Create an instance of the book class
+    book bk;
+    bk.display();
+
+    // Create another instance of the book class and assign its address to the pointer
+    bk.ptrToAnotherBook = new book;
+    bk.ptrToAnotherBook->num = 42;
+    bk.ptrToAnotherBook->year = 2022;
+    bk.ptrToAnotherBook->publication = 2023;
+
+    // Display the original book and the book pointed to by the pointer
+    cout << "Original Book:" << endl;
+    bk.display();
+
+    cout << "Pointed Book:" << endl;
+    bk.ptrToAnotherBook->display();
+
+    // Create a new book using the copy constructor
+    book copiedBook = bk;
+
+    // Display the copied book
+    cout << "Copied Book:" << endl;
+    copiedBook.display();
+
+    // Modify the original book and display again
+    bk.num = 99;
+    bk.display();
+
+    // Display the copied book again to show deep copy
+    cout << "Copied Book after Modification of Original Book:" << endl;
+    copiedBook.display();
+
+    return 0;
+}
+#include <iostream>
+#include <string>
+using namespace std;
+
+class book {
+public:
+    int num;
+    int year;
+    int publication;
+
+    // Default constructor
+    book() : num(0), publication(0), year(0) {
+    }
+
+    // Parameterized constructor
+    book(int n, int y, int p) : num(n), year(y), publication(p) {
+    }
+
+    // Copy constructor
+    book(const book& obj) : num(obj.num), year(obj.year), publication(obj.publication) {
+    }
+
+    // Constructor with a pointer to another book
+    book(int n, int y, int p, const book* ptrToAnotherBook) : num(n), year(y), publication(p) {
+        if (ptrToAnotherBook) {
+            // Perform a deep copy for the pointer
+            ptrToAnotherBook = new book(*ptrToAnotherBook);
+        }
+    }
+
+    // Destructor
+    ~book() {
+        // Implement cleanup logic if needed
+    }
+
+    void display() const {
+        cout << "Number: " << num << endl;
+        cout << "Year: " << year << endl;
+        cout << "Publication: " << publication << endl;
+        cout << endl;
+    }
+};
+
+int main() {
+    // Using the default constructor
+    book bkDefault;
+    cout << "Default Constructor:" << endl;
+    bkDefault.display();
+
+    // Using the parameterized constructor
+    book bkParam(89, 2000, 1997);
+    cout << "Parameterized Constructor:" << endl;
+    bkParam.display();
+
+    // Using the copy constructor
+    book bkCopy(bkParam);
+    cout << "Copy Constructor:" << endl;
+    bkCopy.display();
+
+    // Using the constructor with a pointer to another book
+    book* ptrToAnotherBook = new book(42, 2022, 2023);
+    book bkPointer(55, 2010, 2015, ptrToAnotherBook);
+    cout << "Constructor with Pointer to Another Book:" << endl;
+    bkPointer.display();
+
+    delete ptrToAnotherBook;  // Don't forget to delete the allocated memory
+
+    return 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+namespace mul {
+    inline double square(int x) {
+        return x * x;
+    }
+};
+class stringutil {
+public:
+     static string toUpper(const string& str) {
+        string result = str;
+        for (char& c : result)
+            c = tolower(c);
+        return result;
+    }
+
+
+};
+int main(){
+    double num = 5.0;
+    double sq = mul::square(num);
+    cout << sq;
+   string str = "hello world ";
+   string kam = stringutil::toUpper(str);
+   cout << str << endl << kam;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+class StringManipulator {
+private:
+    string vlsa;
+public:
+    StringManipulator(string val) : vlsa (val) {
+
+    }
+
+    StringManipulator& appen(const string& str) {
+        vlsa.append(str);
+        return *this;
+    }
+    StringManipulator& toupperr() {
+        for (char& c : vlsa)
+            c = toupper(c);
+        return *this;
+    }
+    StringManipulator display() {
+        cout << vlsa;
+        return *this;
+    }
+
+};
+
+int main() {
+    StringManipulator manipulator("hello");
+    string st = " world";
+   manipulator.appen("    world").toupperr().display();
+   manipulator.display();
+
+   system("pause");
+    return 0;
+}

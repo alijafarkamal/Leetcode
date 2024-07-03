@@ -1,0 +1,75 @@
+    class MyList {
+        int size;
+        char** ch;
+    public:
+        MyList() :size(0), ch(nullptr){
+        }
+        ~MyList()
+        {
+            for (int i = 0; i < size; i++)
+                delete ch[i];
+            delete[] ch;
+        }
+        friend ostream& operator<<(ostream& os, MyList& obj) {
+            os << "[";
+            for (int i = 0; i < obj.size; i++)
+            {
+                for (int j = 0; obj.ch[i][j] != '\0'; j++)                
+                    os << obj.ch[i][j];      
+                if (i != obj.size - 1)os << ",";
+            }
+            os << "]";
+            return os;
+        }
+        MyList operator+(MyList& obj) {
+           MyList temp;
+           temp.size = size + obj.size;
+           temp.ch = new char* [temp.size];
+            int ii = 0;   
+            for (int i = 0; i < size; i++)
+            {
+                temp.ch[ii] = new char[strlen(ch[i]) + 1];
+                strcpy_s(temp.ch[ii++], strlen(ch[i]) + 1, ch[i]);
+            }   
+            for (int i = 0; i < obj.size; i++)
+            {
+                temp.ch[ii] = new char[strlen(obj.ch[i]) + 1];
+                strcpy_s(temp.ch[ii++], strlen(obj.ch[i]) + 1, obj.ch[i]);
+            }
+            return temp;
+        }
+        friend void operator+(const char* cha, MyList& obj) {
+            char arr[10][20]{ '\0' };
+            for (int i = 0; i < obj.size; i++)
+                strcpy_s(arr[i], obj.ch[i]);           
+            obj.ch = new char* [obj.size+1];
+            int i = 0;
+            for ( i = 0; i < obj.size; i++)
+            {
+                obj.ch[i] = new char[strlen(arr[i])+1];
+                strcpy_s(obj.ch[i], 20,arr[i]);
+            }
+            obj.ch[i] = new char[strlen(cha)+1];
+            strcpy_s(obj.ch[i],20, cha);
+            obj.size += 1;
+        }
+    };
+    int main(){
+        MyList list1;
+        cout << "List1 = " << list1 << endl;
+        "Apple" + list1;
+        cout << "List1 = " << list1 << endl;
+        "Banana" + list1;
+        cout << "List1 = " << list1 << endl;
+        "Guava" + list1;
+        cout << "List1 = " << list1 << endl;
+        MyList list2;
+        "Happy programming" + list2;
+        cout << "List 2 = " << list2 << endl;
+        "I am Pakistani" + list2;
+        cout << "List 2 = " << list2 << endl;
+        MyList list3 = list1 +list2;
+        cout << "List3 = " << list3;
+    system("pause");
+    return 0;
+}

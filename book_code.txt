@@ -1,0 +1,29 @@
+string cName; //variable to store the course name
+string cNo; //variable to store the course number
+int credits; //variable to store the course credit hours
+int count; //loop control variable
+int i; //loop control variable
+courseType courses[6]; //array of objects to store the
+//course information
+char cGrades[6]; //array to hold the course grades
+for (count = 0; count < numberOfStudents; count++)
+{
+infile >> fName >> lName >> ID >> isPaid; //Step 1
+if (isPaid == 'Y') //Step 2
+isTuitionPaid = true;
+else
+isTuitionPaid = false;
+infile >> noOfCourses; //Step 3
+for (i = 0; i < noOfCourses; i++) //Step 4
+{
+infile >> cName >> cNo >> credits
+>> cGrades[i]; //Step 4.a
+courses[i].setCourseInfo(cName, cNo,
+credits); //Step 4.b
+}
+studentList[count].setInfo(fName, lName, ID,
+noOfCourses,
+isTuitionPaid,
+courses, cGrades); //Step 5
+}//end for
+}

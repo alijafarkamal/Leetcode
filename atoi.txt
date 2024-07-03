@@ -1,0 +1,61 @@
+char ch[] = "47892";
+int num = 0;
+int store = 0;
+for (int i = 0; ch[i] != -'\0'; i++) {
+    if (int(ch[i]) >= 45 && int(ch[i]) <= 67)
+    {
+        store = int(ch[i]) - 48;
+        num = num * 10 + store;
+    }
+}
+cout << num;
+
+
+
+
+
+
+
+
+
+
+
+
+  char num[] = "234";
+  char num1[] = "576";
+
+  int num_i = 0;
+  int num_j = 0;
+
+  // Convert characters to integers
+  for (int i = 0; num[i] != '\0' && num1[i] != '\0'; i++) {
+      if (int(num[i]) >= 48 && int(num[i]) <= 57 && int(num1[i]) >= 48 && int(num1[i]) <= 57) {
+          num_i = num_i * 10 + (int(num[i]) - 48);
+          num_j = num_j * 10 + (int(num1[i]) - 48);
+      }
+  }
+
+  // Calculate multiplication
+  int mul = num_i * num_j;
+
+  // Determine the number of digits in the result
+  int digits = floor(log10(abs(mul))) + 1;
+
+  // Create a char array to store the result
+  char* result = new char[digits + 1]; // +1 for the null terminator
+
+  // Extract digits and store them in the array
+  for (int index = digits - 1; index >= 0; index--) {
+      int rem = mul % 10;
+      mul = mul / 10;
+      result[index] = char(rem + 48); // Convert digit to character
+  }
+
+  // Null-terminate the result
+  result[digits] = '\0';
+
+  // Output the result
+cout << result <<endl;
+
+  // Don't forget to free the allocated memory
+  delete[] result;

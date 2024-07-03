@@ -1,0 +1,125 @@
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+
+#include <iostream>
+using namespace std;
+class IntegerSet {
+private:
+    int size;
+    int* arr;
+    int track;
+public:
+    IntegerSet() : track(0)
+    {}
+    IntegerSet(int* ptr, int length) {
+        size = length;
+        track = size;
+        arr = new int[size];
+        for (int i = 0; i < size; i++)
+            arr[i] = ptr[i];
+    }
+    IntegerSet(int cap) {
+        size = cap;
+        arr = new int[size];
+    }
+    IntegerSet& operator+=(int);
+    IntegerSet& operator+=(IntegerSet&); 
+    friend ostream& operator<<(ostream& , IntegerSet&);
+    bool operator==(IntegerSet& );
+    friend IntegerSet operator-(IntegerSet&, IntegerSet& );
+    friend IntegerSet operator+(int, IntegerSet&);
+}; 
+IntegerSet operator+(int cal, IntegerSet& st1) {
+    int temp[5];
+    for (int i = 0; i < st1.track; i++)
+        temp[i]=st1.arr[i];
+    st1.arr = new int[st1.track + 1];
+    int index = 0;
+    bool Trye = false;
+    int i;
+    for (i = 0; i < st1.track; i++)
+        st1.arr[i] = temp[i];
+    st1.arr[i++] = cal;
+        //if (cal < temp[i] && Trye==0) {
+        //    st1.arr[index++] = cal; Trye = true;
+        //    i--;
+        //}
+        //else st1.arr[index++] = temp[i];
+    return IntegerSet(st1.arr, i);
+}
+IntegerSet operator-(IntegerSet& st, IntegerSet& st1) {
+    bool temp[5] = { 0 };
+    for(int i = 0; i<st1.track; i++)
+        for (int j = 0; j < st.track; j++)
+            if (st1.arr[i] == st.arr[j])
+                temp[j] = 1;
+    int dr[6];
+    int index = 0;
+    for (int j = 0; j < st.track; j++)
+        if (!temp[j]) dr[index++] = st.arr[j];
+    return IntegerSet(dr, index);
+}
+ bool IntegerSet::operator==(IntegerSet& st){
+    if (track != st.track) return false;
+    for (int i = 0; i < track; i++)
+        if (arr[i] != st.arr[i]) return false;
+    return true;
+}
+IntegerSet& IntegerSet::operator+=(IntegerSet& obj) {
+    int index = 0;
+    int temp[10];
+    bool dr[5] = { 0 };
+    for(int i = 0; i<track; i++)
+        for (int j = 0; j < obj.track; j++)
+            if (arr[i] == obj.arr[j])
+                dr[j] = 1;
+    for (int i = 0; i < track; i++)
+        temp[index++] = arr[i];
+    for (int j = 0; j < obj.track; j++)
+        if (!dr[j])
+            temp[index++] = obj.arr[j];
+    arr = new int[index];
+    track = index; size = index;
+    for (int i = 0; i < track; i++)
+        arr[i] = temp[i];
+    return *this;
+}
+IntegerSet& IntegerSet::operator+=(int num) {
+    arr[track] = num;
+    track++;
+    return *this;
+}
+ostream& operator<<(ostream& os, IntegerSet& st) {
+    os << "[";
+    for (int i = 0; i <st.track; i++)
+        os << st.arr[i] << " ";
+    os << "]";
+    return os;
+}
+int main()
+{
+    int capacity = 10;
+    IntegerSet set1(capacity);
+    cout << "set1 = " << set1 << endl;
+    set1 += 2; // Add an element to the set
+    set1 += 5;
+    cout << "set1 = " << set1 << endl;
+    int arr[] = { 1,2,3 };
+    IntegerSet set2(arr, 3);
+    cout << "set2 = " << set2 << endl;
+    set2 += set1; // Union operation
+    cout << "set2 = " << set2 << endl;
+    IntegerSet set3 = set2;
+    if (set2 == set3)
+       cout << set2 << " == " << set3 << endl;
+    else
+        cout << set2 << " != " << set3 << endl;
+    set2 = set3 - set1; // Set difference
+    if (set2 == set3)
+        cout << set2 << " == " << set3 << endl;
+    else
+        cout << set2 << " != " << set3 << endl;
+    set2 = 2 + set2; // Add an element to set
+    cout << "set2 = " << set2 << endl;

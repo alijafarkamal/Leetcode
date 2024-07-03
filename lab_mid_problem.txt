@@ -1,0 +1,351 @@
+#include <iostream>
+using namespace std;
+class HugeInt {
+    int* data, size;
+public:
+    HugeInt() : data(nullptr), size(0) {
+
+    };
+    void input() {
+        cout << "Input a huge int size number size : ";
+        cin >> size;
+        char temp[20];
+        data = new int[size];
+        cin.ignore();
+        cout << "Input number : ";
+        cin.getline(temp, size+1);
+        for (int i = 0; temp[i] != '\0'; i++)
+            data[i] = temp[i] - 48;
+    }
+    void output() {
+        for (int i = 0; i < size; i++)
+            cout << data[i];
+    }
+
+    HugeInt(int* d, int s) {
+        size = s;
+        delete[] data;
+        data = nullptr;
+        data = new int[s];
+        for (int i = 0; i < s; i++)
+            data[i] = d[i];
+    }
+    HugeInt(const HugeInt& obj) {
+        size = obj.size;
+        data = new int[size];
+        for (int i = 0; i < size; i++)
+            data[i] = obj.data[i];
+
+    }
+    bool isLessThan(HugeInt& obj) {
+        long long x = 0;
+        long long y = 0;
+        int mul = 1;
+        int i = obj.size-1;
+        while (i >= 5) {
+            x += (obj.data[i] * mul);
+            i--;
+            mul *= 10;
+        }   
+        i = size - 1;
+        mul = 1;
+        while (i >= 3) {
+            y += (data[i] * mul);
+            i--;
+            mul *= 10;
+        }
+        if (y > x)
+            return true;
+        else return false;
+    }
+    HugeInt add(HugeInt obj) {
+        int length1 = size;
+        int length2 = obj.size;
+        int maxi = length2 - length1;
+        int index = 0;
+        int rem = 0;
+        int temp[20]; // Max size is length2 + 1 due to possible carry
+        for (int i = length2 - 1; i >= 0; i--) {
+            if (i >= maxi) {
+                temp[index++] = data[--length1] + obj.data[i] + rem;
+            }
+            else {
+                temp[index++] = obj.data[i] + rem;
+            }
+            if (temp[index - 1] > 9) {
+                rem = 1;
+                temp[index - 1] %= 10;
+            }
+            else rem = 0;
+        }
+        if (rem > 0)
+            temp[index++] = rem;
+        int length = index;
+        for (int i = 0; i < index / 2; i++)
+            swap(temp[i], temp[--length]);
+        return HugeInt(temp, index);
+    }
+    ~HugeInt() {
+        delete[] data;
+    }
+};
+
+
+int main() {
+    HugeInt obj1Int;
+    obj1Int.input();
+
+    int data[] = { 1,2,3,4,5,6,7,8,9,4,3,1 }, size = 12;
+    HugeInt obj2Int(data, size);
+    HugeInt obj3Int = 
+        obj1Int.add(obj2Int);
+    obj3Int.output();
+    cout << " = ";
+    obj1Int.output();
+    cout << " + ";
+    obj2Int.output();
+    cout << endl;
+    if (obj2Int.isLessThan(obj3Int))
+    {
+        cout << "I am lesser\n";
+    }
+    else {
+        cout << "I am bigger\n";
+    }
+    system("pause");
+    return 0;
+}
+
+#include <iostream>
+using namespace std;
+
+class HugeInt {
+    int* data;
+    int size;
+
+public:
+    HugeInt() : data(nullptr), size(0) {}
+    HugeInt(const int* d, int s);
+    HugeInt(const HugeInt& obj);
+    ~HugeInt();
+
+    void input();
+    void output();
+    bool isLessThan(const HugeInt& obj) const;
+    HugeInt add(const HugeInt& obj) const;
+};
+
+HugeInt::HugeInt(const int* d, int s) : data(new int[s]), size(s) {
+    for (int i = 0; i < s; ++i)
+        data[i] = d[i];
+}
+
+HugeInt::HugeInt(const HugeInt& obj) : data(new int[obj.size]), size(obj.size) {
+    for (int i = 0; i < size; ++i)
+        data[i] = obj.data[i];
+}
+
+HugeInt::~HugeInt() {
+    delete[] data;
+}
+
+void HugeInt::input() {
+    cout << "Input a huge int size number size: ";
+    cin >> size;
+    data = new int[size];
+    cout << "Input number: ";
+    for (int i = 0; i < size; ++i) {
+        char c;
+        cin >> c;
+        data[i] = c - '0';
+    }
+}
+
+void HugeInt::output() {
+    for (int i = 0; i < size; ++i)
+        cout << data[i];
+    cout << endl;
+}
+
+bool HugeInt::isLessThan(const HugeInt& obj) const {
+    if (size < obj.size)
+        return true;
+    else if (size > obj.size)
+        return false;
+    for (int i = 0; i < size; ++i) {
+        if (data[i] < obj.data[i])
+            return true;
+        else if (data[i] > obj.data[i])
+            return false;
+    }
+    return false; // Equal
+}
+
+HugeInt HugeInt::add(const HugeInt& obj) const {
+    int maxSize = max(size, obj.size) + 1;
+    int* result = new int[maxSize] {};
+    int carry = 0;
+    int i = size - 1, j = obj.size - 1, k = maxSize - 1;
+    while (i >= 0 || j >= 0 || carry > 0) {
+        int sum = carry;
+        if (i >= 0)
+            sum += data[i--];
+        if (j >= 0)
+            sum += obj.data[j--];
+        result[k--] = sum % 10;
+        carry = sum / 10;
+    }
+    return HugeInt(result, maxSize);
+}
+
+int main() {
+    HugeInt obj1Int;
+    obj1Int.input();
+
+    int data[] = { 1,2,3,4,5,6,7,8,9,4,3,1 };
+    HugeInt obj2Int(data, 12);
+    HugeInt obj3Int = obj1Int.add(obj2Int);
+
+    obj3Int.output();
+    cout << " = ";
+    obj1Int.output();
+    cout << " + ";
+    obj2Int.output();
+
+    cout << endl;
+    if (obj2Int.isLessThan(obj3Int))
+        cout << "I am lesser" << endl;
+    else
+        cout << "I am bigger" << endl;
+    system("pause");
+    return 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include<iostream>
+using namespace std;
+#include <iostream>
+
+using namespace std;
+
+class my2D {
+private:
+    int** ptrto2D;
+    int rows;
+    int cols;
+
+public:
+    my2D(int r, int c) : rows(r), cols(c) {
+        ptrto2D = new int* [rows];
+        for (int i = 0; i < rows; ++i) {
+            ptrto2D[i] = new int[cols];
+        }
+    }
+
+    ~my2D() {
+        for (int i = 0; i < rows; ++i) {
+            delete[] ptrto2D[i];
+        }
+        delete[] ptrto2D;
+    }
+
+    void setValue(int row, int col, int value) {
+        ptrto2D[row][col] = value;
+    }
+
+    int getValue(int row, int col) const {
+        return ptrto2D[row][col];
+    }
+
+    my2D* SplitUp(int rowSplit, int colSplit) const {
+        my2D* partitions = new my2D[4]{
+            my2D(rowSplit, colSplit),
+            my2D(rowSplit, cols - colSplit),
+            my2D(rows - rowSplit, colSplit),
+            my2D(rows - rowSplit, cols - colSplit)
+        };
+        for (int i = 0; i < rows; ++i) 
+            for (int j = 0; j < cols; ++j) 
+                if (i < rowSplit && j < colSplit) 
+                    partitions[0].setValue(i, j, ptrto2D[i][j]);
+                else if (i < rowSplit && j >= colSplit) 
+                    partitions[1].setValue(i, j - colSplit, ptrto2D[i][j]);
+                else if (i >= rowSplit && j < colSplit) 
+                    partitions[2].setValue(i - rowSplit, j, ptrto2D[i][j]);
+                else 
+                    partitions[3].setValue(i - rowSplit, j - colSplit, ptrto2D[i][j]);
+        return partitions;
+    }
+
+    void printMatrix() const {
+        for (int i = 0; i < rows; ++i) {
+            for (int j = 0; j < cols; ++j) {
+                cout << ptrto2D[i][j] << " ";
+            }
+            cout << endl;
+        }
+    }
+};
+
+int main() {
+    int rows, cols;
+    cout << "Enter number of rows and columns for the matrix: ";
+    cin >> rows >> cols;
+
+    my2D matrix(rows, cols);
+
+    cout << "Enter elements of the matrix:" << endl;
+    for (int i = 0; i < rows; ++i) {
+        for (int j = 0; j < cols; ++j) {
+            int value;
+            cin >> value;
+            matrix.setValue(i, j, value);
+        }
+    }
+
+    int rowSplit, colSplit;
+    cout << "Enter row and column indices to split the matrix: ";
+    cin >> rowSplit >> colSplit;
+
+    cout << "Actual Matrix:" << endl;
+    matrix.printMatrix();
+
+    my2D* partitions = matrix.SplitUp(rowSplit, colSplit);
+
+    cout << "Partitions:" << endl;
+    for (int i = 0; i < 4; ++i) {
+        cout << "Partition " << i + 1 << ":" << endl;
+        partitions[i].printMatrix();
+        cout << endl;
+    }
+
+    delete[] partitions;

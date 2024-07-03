@@ -1,0 +1,101 @@
+
+class MyList
+{
+private:
+    char** arr;
+    int size;
+
+    friend ostream& operator<<(ostream& out, MyList& rhs);
+    friend MyList& operator+(const char* str, MyList& rhs);
+
+public:
+    MyList() : arr(nullptr), size(0) {}
+
+    ~MyList()
+    {
+        cout << "destroyed" << endl;
+        if (arr != nullptr)
+        {
+            for (int i = 0; i < size; i++)
+                delete[] arr[i];
+            delete[] arr;
+        }
+    }
+
+    MyList(const MyList& rhs) : arr(nullptr), size(rhs.size)
+    {
+        if (rhs.arr != nullptr)
+        {
+            arr = new char* [size];
+            for (int i = 0; i < size; i++)
+            {
+                arr[i] = new char[strlen(rhs.arr[i]) + 1];
+                strcpy_s(arr[i],sizeof(arr[i]), rhs.arr[i]);
+            }
+        }
+    }
+
+    MyList operator+(MyList& rhs)
+    {
+        MyList result;
+        for (int i = 0; i < size; i++)
+            arr[i] + result;
+        for (int i = 0; i < rhs.size; i++)
+            rhs.arr[i] + result;
+        return result;
+    }
+};
+
+ostream& operator<<(ostream& out, MyList& rhs)
+{
+    out << "[";
+    for (int i = 0; i < rhs.size; i++)
+    {
+        out << rhs.arr[i];
+        if (i < rhs.size - 1)
+            out << ", ";
+    }
+    out << "]" << endl;
+    return out;
+}
+
+MyList& operator+(const char* str, MyList& rhs)
+{
+    int index = rhs.size;
+    char** temp = new char* [rhs.size + 1];
+    for (int i = 0; i < rhs.size; i++)
+        temp[i] = rhs.arr[i];
+    delete[] rhs.arr;
+    rhs.arr = temp;
+
+    rhs.arr[index] = new char[strlen(str) + 1];
+    strcpy_s(rhs.arr[index], strlen(rhs.arr[index]), str);
+    rhs.size++;
+    return rhs;
+}
+
+int main()
+{
+    MyList list1;
+    cout << "list1 = " << list1;
+
+    "Apple" + list1;
+    cout << "list1 = " << list1;
+
+    "Banana" + list1;
+    cout << "list1 = " << list1;
+
+    "Peach" + list1;
+    cout << "list1 = " << list1;
+
+    MyList list2;
+    cout << "list2 = " << list2;
+
+    "I love Pakistan" + list2;
+    cout << "list2 = " << list2;
+
+    "Happy Programming" + list2;
+    cout << "list2 = " << list2;
+
+    MyList list3 = list1 + list2;
+    cout << "List 3 = " << list3;

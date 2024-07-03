@@ -1,0 +1,46 @@
+class D {
+public:
+    D() { cout << "D ctor" << endl; }
+    D(D&) { cout << "D copy ctor" << endl; }
+    ~D() { cout << "D dtor" << endl; }
+};
+class A {
+public:
+    A() { cout << "A ctor" << endl; }
+    ~A() { cout << "A dtor" << endl; }
+};
+class B {
+public:
+    B() { cout << "B ctor" << endl; }
+    ~B() { cout << "B dtor" << endl; }
+    void test(D d) { A a; }
+};
+B hh;
+class Foo {
+    int x;
+    static int count;
+public:
+    static int Bar(int i) {
+        return i * count * i + 1;
+    }
+};
+int Foo::count= 1;
+int main()
+{
+    A a;
+    D d;
+    D d2 = d;
+    d = d2;
+    hh.test(d);
+    cout << Foo::Bar(1);
+
+
+
+        //B ctor
+        //A ctor
+        //D ctor
+        //D copy ctor
+        //D copy ctor
+        //A ctor
+        //A dtor
+        //D dtor

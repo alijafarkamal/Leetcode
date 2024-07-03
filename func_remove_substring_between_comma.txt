@@ -1,0 +1,15 @@
+//void remove_between_commas(string& str, int remover) {
+//	size_t start = 0;
+//	int comma_count = 0;
+//	while (comma_count < remover && start!=string::npos) {
+//		start = str.find(',', start + 1);
+//		comma_count++;
+//	}
+//	size_t end = str.find(',', start+1);
+//	str.erase(start+1, end - start-1);
+//}
+			//size_t end_comma = other_staff_id.find(',', choice);
+			//other_staff_id.erase(choice, end_comma - choice);
+			//remove_between_commas(other_staff_salary,comma_counter);
+			//remove_between_commas(other_staff_name, comma_counter);
+			//remove_between_commas(other_staff_profession, comma_counter);

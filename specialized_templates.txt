@@ -1,0 +1,19 @@
+//specialized templates
+template <class T> void f(T& i) { cout << 1; }
+template <> void f(const int& i) { cout << 2; }
+template <> void f(const float& i) { cout << 3; }
+int main()
+{
+    const int x = 2.3;
+    f(x);
+    cout << endl;
+    const float y = 2.3;
+    f(y);
+return 0;
+}
+template <class T> void f(T& i) { std::cout << 1; }
+template <> void f(const int& i) { std::cout << 2; }
+int main()
+{
+    const int x = 10;
+    f(x);

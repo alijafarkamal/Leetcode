@@ -1,0 +1,39 @@
+#include <iostream>
+#include <cmath>
+using namespace std;
+class ComplexNumber
+{
+    float* real;
+    float* imag;
+public:
+    ComplexNumber(float rel, float img) {
+        real = new float;
+        imag = new float;
+        *real = rel;
+        *imag = img;
+    }
+
+    ~ComplexNumber() {
+        delete real;
+        delete imag;
+    }
+    friend ostream& operator<<(ostream& os, const ComplexNumber& obj) {
+        os << *obj.real << "+" << *obj.imag << "i" << endl;
+        return os;
+    }
+    ComplexNumber operator+(const ComplexNumber& obj) const {
+        return ComplexNumber(*real + *obj.real, *imag + *obj.imag);
+    }
+    ComplexNumber operator*(const ComplexNumber& obj) const {
+        return ComplexNumber((*real * *obj.real)-((*imag)*(*obj.imag)), (*real)*(*obj.imag)+(*imag)*(*obj.real));
+    }
+};
+int main() {
+    ComplexNumber C1(4.0, 7.0); //(4+7i)
+    ComplexNumber C2(2.0, 3.0); //(2+3i)
+    cout << "Complex numbers are: " << C1 << C2;
+    cout << "Addition of the two complex numbers is:" << C1 + C2;
+    cout << "Multiplication of the two complex numbers is: " << C1 * C2;
+    cin.get();
+    return 0;
+}

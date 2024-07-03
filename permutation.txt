@@ -1,0 +1,26 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+void rec(string str, int index) {
+    if (index >= str.length())
+    {
+        cout << str << endl;
+    return;
+    }
+    for (int i = index; i < str.length(); i++) {
+        swap(str[index], str[i]);
+        rec(str, index + 1);
+        swap(str[index], str[i]);
+    }
+}
+int main() {
+    int n = 4;
+    char arr[] = "abc";
+    string ss = arr;
+    rec(ss, 0);
+    system("pause");
+    return 0;
+}
+one time loop ascending
+one time loop descending

@@ -1,0 +1,164 @@
+#include <iostream>
+#include <string>
+#include <cstdlib>
+#include <ctime>
+using namespace std;
+
+struct Treasure {
+    int value;
+    string description;
+};
+
+class Player {
+private:
+    Treasure **bag;
+    int bagsize;
+    int totalpoints;
+    string name;
+
+public:
+    Player(string pname, int size) : name(pname), bagsize(size), totalpoints(0) {
+        bag = new Treasure *[bagsize];
+        for (int i = 0; i < bagsize; i++)
+            bag[i] = nullptr;
+    }
+
+    ~Player() {
+        delete[] bag;
+    }
+
+    void addToBag(Treasure *treasure) {
+        for (int i = 0; i < bagsize; i++) {
+            if (bag[i] == nullptr) {
+                bag[i] = treasure;
+                totalpoints += treasure->value;
+                break;
+            }
+        }
+    }
+
+    void printBag() {
+        cout << "Player: " << name << endl;
+        cout << "Total Points: " << totalpoints << endl;
+        cout << "Bag Contents:" << endl;
+        for (int i = 0; i < bagsize; i++) {
+            if (bag[i] != nullptr) {
+                cout << bag[i]->description << " (Value: " << bag[i]->value << ")" << endl;
+            }
+        }
+        cout << endl;
+    }
+};
+
+class TreasureHunt {
+private:
+    Treasure ***board;
+    int rows;
+    int cols;
+    Player **players;
+    int playerCount;
+
+public:
+    TreasureHunt(int nrows, int ncols, int numPlayers, int bagSize) : rows(nrows), cols(ncols), playerCount(numPlayers) {
+        // Initialize board
+        board = new Treasure **[rows];
+        for (int i = 0; i < rows; i++) {
+            board[i] = new Treasure *[cols];
+            for (int j = 0; j < cols; j++) {
+                board[i][j] = nullptr;
+            }
+        }
+
+        // Initialize players
+        players = new Player *[playerCount];
+        for (int i = 0; i < playerCount; i++) {
+            players[i] = new Player("Player" + to_string(i + 1), bagSize);
+        }
+    }
+
+    ~TreasureHunt() {
+        // Deallocate board
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                delete board[i][j];
+            }
+            delete[] board[i];
+        }
+        delete[] board;
+
+        // Deallocate players
+        for (int i = 0; i < playerCount; i++) {
+            delete players[i];
+        }
+        delete[] players;
+    }
+
+    void placeTreasure(int row, int col, int value, string description) {
+        if (row >= 0 && row < rows && col >= 0 && col < cols) {
+            Treasure *treasure = new Treasure{value, description};
+            board[row][col] = treasure;
+        }
+    }
+
+    void printBoard() {
+        cout << "Board:" << endl;
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                if (board[i][j] != nullptr) {
+                    cout << board[i][j]->description << " ";
+                } else {
+                    cout << "Empty ";
+                }
+            }
+            cout << endl;
+        }
+        cout << endl;
+    }
+
+    void rollDiceAndMove() {
+        srand(time(nullptr)); // Seed for random number generator
+        for (int i = 0; i < playerCount; i++) {
+            int row = rand() % rows;
+            int col = rand() % cols;
+            Treasure *treasure = board[row][col];
+            if (treasure != nullptr) {
+                players[i]->addToBag(treasure);
+                board[row][col] = nullptr; // Treasure collected, so set the board square to empty
+            }
+        }
+    }
+
+    void printPlayerBags() {
+        cout << "Player Bags:" << endl;
+        for (int i = 0; i < playerCount; i++) {
+            players[i]->printBag();
+        }
+    }
+};
+
+int main() {
+    // Example usage
+    TreasureHunt game(4, 3, 3, 5);
+
+    // Place treasures on the board
+    game.placeTreasure(0, 0, 10, "Diamond");
+    game.placeTreasure(0, 1, 20, "Gemstone");
+    game.placeTreasure(1, 0, 15, "Bronze Sword");
+    game.placeTreasure(1, 1, 25, "Diamond Ring");
+    game.placeTreasure(2, 0, 30, "Silver Coin");
+    game.placeTreasure(2, 1, 35, "Gold Neckless");
+    game.placeTreasure(3, 0, 40, "Sapphire Gemstone");
+    game.placeTreasure(3, 1, 45, "Gold Brick");
+    game.placeTreasure(3, 2, 50, "Ruby Gemstone");
+    game.placeTreasure(0, 2, 5, "Silver Pendent");
+
+    game.printBoard();
+
+    // Roll dice and move players
+    game.rollDiceAndMove();
+
+    // Print players' bags
+    game.printPlayerBags();
+
+    return 0;
+}
